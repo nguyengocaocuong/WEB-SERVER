@@ -174,7 +174,7 @@ class CourseController extends Controller
         // $lists[0]->Course_category->{'Tag'} = $courseTags;
         // $lists[1]->{'tag'} = $courseTag;
         array_push($lists,$courseTags);
-        $listChaps = Chap::where('Course_ID','=',$courseID)->get(['Chap_ID','Chap_description']);
+        $listChaps = Chap::where('Course_ID','=',$courseID)->get(['Chap_ID','Chap_header']);
         $listLessons = array();
         foreach($listChaps as $chap)
         {
