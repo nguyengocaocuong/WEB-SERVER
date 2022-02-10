@@ -24,11 +24,11 @@ class CourseController extends Controller
         // echo $tags;
         foreach($tags as $tag)
         {
-
             $newCourseTag = new CourseTag;
             $newCourseTag->Course_ID = $courseID;
             $newCourseTag->Tag_ID = $tag;
             $newCourseTag->save();
+            
         }
         // echo $newCourse;
         // return response()->json(['status'=>'Add Course Successfully'],201);

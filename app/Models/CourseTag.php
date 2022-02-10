@@ -9,5 +9,6 @@ class CourseTag extends Model
 {
     // use HasFactory;
     protected $table = 'course_tag';
+    protected $primaryKey = null;
     public $timestamps = false;
 }
