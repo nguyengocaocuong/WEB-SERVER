@@ -35,6 +35,6 @@ class User extends Authenticatable
     public $timestamps = true;
 
     public function teacherCourse() {
-        return $this->hasMany('course','Author_ID','User_ID');
+        return $this->hasMany('Course','Author_ID','User_ID');
     }
 }
