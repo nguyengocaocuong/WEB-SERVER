@@ -40,7 +40,7 @@ class TeacherController extends Controller
                 WHERE c.\"Author_ID\" = $user
                 AND ce.\"Course_ID\" = c.\"Course_ID\"
                 GROUP BY c.\"Author_ID\"");
-                
+
         return response()->json(
             [
                 'courseTotal' => !empty($courseTotal) ? $courseTotal : 0,
@@ -57,19 +57,19 @@ class TeacherController extends Controller
 
         $user = Auth::user()->User_ID;
 
-        $value = DB::select("SELECT EXTRACT(MONTH FROM Payment_date) month, COUNT(User_ID) as total
+        $value = DB::select("SELECT EXTRACT(MONTH FROM \"Payment_date\") month, COUNT(User_ID) as total
                     FROM courseenrollment ce, course c
-                    WHERE c.Author_ID = $user
-                    AND ce.Course_ID = c.Course_ID
-                    GROUP BY c.Author_ID, EXTRACT(MONTH FROM Payment_date)");
+                    WHERE c.\"Author_ID\" = $user
+                    AND ce.\"Course_ID\" = c.\"Course_ID\"
+                    GROUP BY c.\"Author_ID\", EXTRACT(MONTH FROM \"Payment_date\")");
 
         $value2 = DB::select("
-            SELECT EXTRACT(MONTH FROM Payment_date) month, SUM(p.Payment_price) as total
+            SELECT EXTRACT(MONTH FROM \"Payment_date\") month, SUM(p.\"Payment_price\") as total
             FROM courseenrollment ce, course c, paymenthistory p
-            WHERE c.Author_ID = $user
-            AND ce.Course_ID = c.Course_ID
-            AND ce.Payment_ID = p.Payment_ID
-            GROUP BY c.Author_ID, EXTRACT(MONTH FROM Payment_date)
+            WHERE c.\"Author_ID\" = $user
+            AND ce.\"Course_ID\" = c.\"Course_ID\"
+            AND ce.\"Payment_ID\" = p.\"Payment_ID\"
+            GROUP BY c.\"Author_ID\", EXTRACT(MONTH FROM \"Payment_date\")
         ");
 
         foreach ($value as $item) {
@@ -89,14 +89,14 @@ class TeacherController extends Controller
     public function topStudents () {
 
         $user = Auth::user()->User_ID;
-        $value = DB::select("SELECT ce.User_ID , u.User_name username,  COUNT(p.Payment_ID) 'order', SUM(p.Payment_price) price
+        $value = DB::select("SELECT ce.\"User_ID\" , u.\"User_name\" username,  COUNT(p.\"Payment_ID\") 'order', SUM(p.\"Payment_price\") price
                 FROM courseenrollment ce, course c, paymenthistory p, user u
-                WHERE c.Author_ID = $user
-                AND ce.Course_ID = c.Course_ID
-                AND ce.Payment_ID = p.Payment_ID
-                AND ce.User_ID = u.User_ID
-                GROUP BY ce.User_ID, u.User_name
-                ORDER BY COUNT(p.Payment_ID) DESC");
+                WHERE c.\"Author_ID\" = $user
+                AND ce.\"Course_ID\" = c.\"Course_ID\"
+                AND ce.\"Payment_ID\" = p.\"Payment_ID\"
+                AND ce.\"User_ID\" = u.\"User_ID\"
+                GROUP BY ce.\"User_ID\", u.\"User_name\"
+                ORDER BY COUNT(p.\"Payment_ID\") DESC");
 
         return response()->json(!empty($value)? $value : [],200);
 
@@ -106,26 +106,26 @@ class TeacherController extends Controller
 
         $user = Auth::user()->User_ID;
 
-        $value = DB::select("SELECT ce.User_ID as id, u.User_name as user, Payment_date as date, (p.Payment_price) price
+        $value = DB::select("SELECT ce.\"User_ID\" as id, u.\"User_name\" as user, \"Payment_date\" as date, (p.\"Payment_price\") price
             FROM courseenrollment ce, course c, paymenthistory p, user u
-            WHERE c.Author_ID = $user
-            AND ce.Course_ID = c.Course_ID
-            AND ce.Payment_ID = p.Payment_ID
-            AND ce.User_ID = u.User_ID
-            ORDER BY Payment_date ASC");
+            WHERE c.\"Author_ID\" = $user
+            AND ce.\"Course_ID\" = c.\"Course_ID\"
+            AND ce.\"Payment_ID\" = p.\"Payment_ID\"
+            AND ce.\"User_ID\" = u.\"User_ID\"
+            ORDER BY \"Payment_date\" ASC");
 
         return response()->json(!empty($value)? $value : [],200);
     }
 
     public function listStudent () {
         $user = Auth::user()->User_ID;
-        $value = DB::select("SELECT ce.User_ID id, u.User_name as name, u.User_phone phone, u.User_account as email ,COUNT(ce.Course_ID) total_order, SUM(p.Payment_price) as total_spend
+        $value = DB::select("SELECT ce.\"User_ID\" id, u.\"User_name\" as name, u.\"User_phone\" phone, u.\"User_account\" as email ,COUNT(ce.\"Course_ID\") total_order, SUM(p.\"Payment_price\") as total_spend
                 FROM courseenrollment ce, course c, user u, paymenthistory p
-                WHERE c.Author_ID = $user
-                AND ce.Course_ID = c.Course_ID
-                AND ce.User_ID = u.User_ID
-                AND ce.Payment_ID = p.Payment_ID
-                GROUP BY c.Author_ID, u.User_ID, ce.User_ID, u.User_name, u.User_phone, u.User_account");
+                WHERE c.\"Author_ID\" = $user
+                AND ce.\"Course_ID\" = c.\"Course_ID\"
+                AND ce.\"User_ID\" = u.\"User_ID\"
+                AND ce.\"Payment_ID\" = p.\"Payment_ID\"
+                GROUP BY c.\"Author_ID\", u.\"User_ID\", ce.\"User_ID\", u.\"User_name\", u.\"User_phone\", u.\"User_account\"");
 
         return response()->json(!empty($value)? $value : [],200);
     }
@@ -164,14 +164,14 @@ class TeacherController extends Controller
 
         $user = Auth::user()->User_ID;
         $value = DB::select("
-            SELECT ur.User_ID as id, ur.User_name as username, c.Course_header coursename, p.Payment_price price, ce.Payment_date
+            SELECT ur.\"User_ID\" as id, ur.\"User_name\" as username, c.\"Course_header\" coursename, p.\"Payment_price\" price, ce.\"Payment_date\"
             FROM user u, course c, courseenrollment ce, paymenthistory p, user ur
-            WHERE u.User_ID = $user
-            AND u.User_ID = c.Author_ID
-            AND c.Course_ID = ce.Course_ID
-            AND ce.Payment_ID = p.Payment_ID
-            AND ur.User_ID = ce.User_ID
-            ORDER BY ce.Payment_date DESC
+            WHERE u.\"User_ID\" = $user
+            AND u.\"User_ID\" = c.\"Author_ID\"
+            AND c.\"Course_ID\" = ce.\"Course_ID\"
+            AND ce.\"Payment_ID\" = p.\"Payment_ID\"
+            AND ur.\"User_ID\" = ce.\"User_ID\"
+            ORDER BY ce.\"Payment_date\" DESC
         ");
 
 
