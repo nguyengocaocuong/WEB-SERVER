@@ -57,14 +57,14 @@ class TeacherController extends Controller
 
         $user = Auth::user()->User_ID;
 
-        $value = DB::select("SELECT EXTRACT(MONTH FROM \"Payment_date\") month, COUNT(User_ID) as total
+        $value = DB::select("SELECT EXTRACT(MONTH FROM \"Payment_date\") as month, COUNT(\"User_ID\") as total
                     FROM courseenrollment ce, course c
                     WHERE c.\"Author_ID\" = $user
                     AND ce.\"Course_ID\" = c.\"Course_ID\"
                     GROUP BY c.\"Author_ID\", EXTRACT(MONTH FROM \"Payment_date\")");
 
         $value2 = DB::select("
-            SELECT EXTRACT(MONTH FROM \"Payment_date\") month, SUM(p.\"Payment_price\") as total
+            SELECT EXTRACT(MONTH FROM \"Payment_date\") as month, SUM(p.\"Payment_price\") as total
             FROM courseenrollment ce, course c, paymenthistory p
             WHERE c.\"Author_ID\" = $user
             AND ce.\"Course_ID\" = c.\"Course_ID\"
@@ -89,8 +89,8 @@ class TeacherController extends Controller
     public function topStudents () {
 
         $user = Auth::user()->User_ID;
-        $value = DB::select("SELECT ce.\"User_ID\" , u.\"User_name\" username,  COUNT(p.\"Payment_ID\") 'order', SUM(p.\"Payment_price\") price
-                FROM courseenrollment ce, course c, paymenthistory p, user u
+        $value = DB::select("SELECT ce.\"User_ID\" , u.\"User_name\" as username,  COUNT(p.\"Payment_ID\") as order, SUM(p.\"Payment_price\") as price
+                FROM courseenrollment ce, course c, paymenthistory p, public.\"user\" u
                 WHERE c.\"Author_ID\" = $user
                 AND ce.\"Course_ID\" = c.\"Course_ID\"
                 AND ce.\"Payment_ID\" = p.\"Payment_ID\"
@@ -106,8 +106,8 @@ class TeacherController extends Controller
 
         $user = Auth::user()->User_ID;
 
-        $value = DB::select("SELECT ce.\"User_ID\" as id, u.\"User_name\" as user, \"Payment_date\" as date, (p.\"Payment_price\") price
-            FROM courseenrollment ce, course c, paymenthistory p, user u
+        $value = DB::select("SELECT ce.\"User_ID\" as id, u.\"User_name\" as user, \"Payment_date\" as date, (p.\"Payment_price\") as price
+            FROM courseenrollment ce, course c, paymenthistory p, public.\"user\" u
             WHERE c.\"Author_ID\" = $user
             AND ce.\"Course_ID\" = c.\"Course_ID\"
             AND ce.\"Payment_ID\" = p.\"Payment_ID\"
@@ -120,7 +120,7 @@ class TeacherController extends Controller
     public function listStudent () {
         $user = Auth::user()->User_ID;
         $value = DB::select("SELECT ce.\"User_ID\" id, u.\"User_name\" as name, u.\"User_phone\" phone, u.\"User_account\" as email ,COUNT(ce.\"Course_ID\") total_order, SUM(p.\"Payment_price\") as total_spend
-                FROM courseenrollment ce, course c, user u, paymenthistory p
+                FROM courseenrollment ce, course c, public.\"user\" u, paymenthistory p
                 WHERE c.\"Author_ID\" = $user
                 AND ce.\"Course_ID\" = c.\"Course_ID\"
                 AND ce.\"User_ID\" = u.\"User_ID\"
@@ -165,7 +165,7 @@ class TeacherController extends Controller
         $user = Auth::user()->User_ID;
         $value = DB::select("
             SELECT ur.\"User_ID\" as id, ur.\"User_name\" as username, c.\"Course_header\" coursename, p.\"Payment_price\" price, ce.\"Payment_date\"
-            FROM user u, course c, courseenrollment ce, paymenthistory p, user ur
+            FROM public.\"user\" u, course c, courseenrollment ce, paymenthistory p, public.\"user\" ur
             WHERE u.\"User_ID\" = $user
             AND u.\"User_ID\" = c.\"Author_ID\"
             AND c.\"Course_ID\" = ce.\"Course_ID\"
