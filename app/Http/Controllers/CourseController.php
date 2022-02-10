@@ -180,7 +180,7 @@ class CourseController extends Controller
         {
             // echo $chap;
             // echo $chap->Chap_ID;
-            $lesson = Lesson::where('Chap_ID','=',$chap->Chap_ID)->get(['Lesson_header','Lesson_description','Lesson_video','Lesson_view']);
+            $lesson = Lesson::where('Chap_ID','=',$chap->Chap_ID)->get(['Lesson_ID','Lesson_header','Lesson_description','Lesson_video','Lesson_view']);
             $list = array('chap' =>$chap,'lesson' => $lesson);
 
             array_push($listLessons,$list);
@@ -368,7 +368,7 @@ class CourseController extends Controller
     public function updateLesson(Request $request, $lessonID)
     {
         // $courseID = $request->route('courseID');
-        $course = Lesson::where('Chap_ID','=',$lessonID)->update([
+        $course = Lesson::where('Lession_ID','=',$lessonID)->update([
             'Lesson_header' => $request->input('Lesson_header'),
             'Lesson_description' => $request->input('Lesson_description'),
             'Lesson_video' => $request->input('Lesson_video'),

@@ -20,29 +20,27 @@ class TeacherController extends Controller
         $user = Auth::user()->User_ID;
         $courseTotal = User::find($user)
             ->where("User_ID", $user)
-            ->join('course','course.Author_id', "user.User_ID")->count();
-        $studentTotal = DB::select("SELECT COUNT(distinct ce.User_ID) as total
+            ->join('course','course.Author_ID', "user.User_ID")->count();
+        $studentTotal = DB::select("SELECT COUNT(distinct ce.\"User_ID\") as total
                     FROM courseenrollment ce, course c
-                    WHERE c.Author_ID = $user
-                    AND ce.Course_ID = c.Course_ID
-                    GROUP BY c.Author_ID");
+                    WHERE c.\"Author_ID\" = $user
+                    AND ce.\"Course_ID\" = c.\"Course_ID\"
+                    GROUP BY c.\"Author_ID\"");
 
         $revune = DB::select(
-            "SELECT SUM(p.Payment_price) as total
+            "SELECT SUM(p.\"Payment_price\") as total
                     FROM courseenrollment ce, course c, paymenthistory p
-                    WHERE c.Author_ID = $user
-                    AND ce.Course_ID = c.Course_ID
-                    AND ce.Payment_ID = p.Payment_ID
-                    GROUP BY c.Author_ID"
-                            );
+                    WHERE c.\"Author_ID\" = $user
+                    AND ce.\"Course_ID\" = c.\"Course_ID\"
+                    AND ce.\"Payment_ID\" = p.\"Payment_ID\"
+                    GROUP BY c.\"Author_ID\"");
         $payTotal = DB::select(
-                "SELECT COUNT(ce.Payment_ID) as total
+                "SELECT COUNT(ce.\"Payment_ID\") as total
                 FROM courseenrollment ce, course c
-                WHERE c.Author_ID = $user
-                AND ce.Course_ID = c.Course_ID
-                GROUP BY c.Author_ID
-                "
-        );
+                WHERE c.\"Author_ID\" = $user
+                AND ce.\"Course_ID\" = c.\"Course_ID\"
+                GROUP BY c.\"Author_ID\"");
+                
         return response()->json(
             [
                 'courseTotal' => !empty($courseTotal) ? $courseTotal : 0,
