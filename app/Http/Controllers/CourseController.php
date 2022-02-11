@@ -369,7 +369,7 @@ class CourseController extends Controller
     public function updateLesson(Request $request, $lessonID)
     {
         // $courseID = $request->route('courseID');
-        $course = Lesson::where('Lession_ID','=',$lessonID)->update([
+        $course = Lesson::where('Lesson_ID','=',$lessonID)->update([
             'Lesson_header' => $request->input('Lesson_header'),
             'Lesson_description' => $request->input('Lesson_description'),
             'Lesson_video' => $request->input('Lesson_video'),
