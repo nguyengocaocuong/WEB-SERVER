@@ -9,7 +9,8 @@ class CourseEnrollment extends Model
 {
     // use HasFactory;
     protected $table = 'courseenrollment';
-    // protected $primaryKey = 'Course_ID';
+    protected $primaryKey = false;
+    public $incrementing = false;
     const CREATED_AT = 'Payment_date';
     const UPDATED_AT = NULL;
     // public $timestamps = false;

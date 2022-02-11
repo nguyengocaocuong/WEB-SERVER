@@ -77,12 +77,12 @@ class AdminController extends Controller
 
         $value = DB::table('courseenrollment')
             ->join('paymenthistory', 'paymenthistory.Payment_ID', 'courseenrollment.Payment_ID')
-            ->groupByRaw('EXTRACT(MONTH FROM courseenrollment.Payment_date)')
-            ->select(DB::raw('EXTRACT(MONTH FROM courseenrollment.Payment_date) month, SUM(Payment_price) total'))->get();
+            ->groupByRaw("EXTRACT(MONTH FROM courseenrollment.\"Payment_date\")")
+            ->select(DB::raw("EXTRACT(MONTH FROM courseenrollment.\"Payment_date\") as month, SUM(\"Payment_price\") as total"))->get();
 
         $value2 = DB::table('course')
-            ->groupByRaw('EXTRACT(MONTH FROM Course_createdAt)')
-            ->select(DB::raw('EXTRACT(MONTH FROM Course_createdAt) month, COUNT(Course_ID) count'))->get();
+            ->groupByRaw("EXTRACT(MONTH FROM \"Course_createdAt\")")
+            ->select(DB::raw("EXTRACT(MONTH FROM \"Course_createdAt\") as month, COUNT(\"Course_ID\") count"))->get();
 
         foreach ($value2 as $item) {
             $newCourse[$item->month] = (int)$item->count;
