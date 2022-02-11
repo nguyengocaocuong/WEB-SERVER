@@ -218,7 +218,7 @@ class CourseController extends Controller
 
             // echo $chap;
             // echo $chap->Chap_ID;
-            $lesson = Lesson::where('Chap_ID','=',$chap->Chap_ID)->where('Lesson_isFree','=',1)->get(['Lesson_header','Lesson_description','Lesson_video','Lesson_view']);
+            $lesson = Lesson::where('Chap_ID','=',$chap->Chap_ID)->where('Lesson_isFree','=',1)->get();
             $list = array('chap' =>$chap,'lesson' => $lesson);
 
             array_push($listLessons,$list);
