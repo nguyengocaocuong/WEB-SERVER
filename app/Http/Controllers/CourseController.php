@@ -455,7 +455,7 @@ class CourseController extends Controller
     public function getLearningHistory(Request $request)
     {
         $userID = $request->get('ID');
-        $histories = LearningHistory::where('user_id','=',$userID);
+        $histories = LearningHistory::where('user_id','=',$userID)->get();
         return response()->json($histories , 200);
     }
 
