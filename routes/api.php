@@ -72,7 +72,8 @@ Route::group(['prefix'=>'user','middleware'=>['auth:api','user']],function(){
     Route::get('/getProfile',[UserController::class,'getProfile']);
     Route::put('/updateProfile',[UserController::class,'updateProfile']);
     Route::post('/buyCourse',[CourseController::class,'buyCourse']);
-
+    Route::post('/updateLearningHistory', [CourseController::class,'updateLearningHistory']);
+    Route::get('/getLearningHistory', [CourseController::class,'getLearningHistory']);
 });
 // Route::get('/getProfile',[UserController::class,'getProfile'])->middleware('auth:api');
 

@@ -15,6 +15,8 @@ use App\Models\PaymentHistory;
 use App\Models\Comment;
 use App\Models\Chap;
 use App\Models\CourseTag;
+use App\Models\LearningHistory;
+
 
 class CourseController extends Controller
 {
@@ -229,7 +231,6 @@ class CourseController extends Controller
     public function getCourseDetailsForStudent(Request $request)
     {
         // echo $request;
-
         $userID = Auth::id();
         // dd($user);
         // $user = auth()->user();
@@ -377,7 +378,8 @@ class CourseController extends Controller
         return response()->json(['message' => 'Update Lesson Succesfully'],200);
     }
 
-    public function topCourse() {
+    public function topCourse() 
+    {
 
         $value = Course::where('Course_approve','1')->get();
 
@@ -400,7 +402,8 @@ class CourseController extends Controller
         return response()->json($value,200);
     }
 
-    public function newCourse () {
+    public function newCourse () 
+    {
         $value = Course::where('Course_approve','1')
         ->orderBy('Course_createdAt', 'DESC')->get();
 
@@ -437,6 +440,23 @@ class CourseController extends Controller
         }
 
         return response()->json($lists,200);
+    }
+
+    public function updateLearningHistory(Request $request)
+    {
+        $userID = $request->get('ID');
+        $newHistory = new LearningHistory;
+        $newHistory->lesson_id = $request->input('Lesson_ID');
+        $newHistory->user_id = $userID;
+        $newHistory->save();
+        return response()->json(['message' => 'Add new history Succesfully'],201);
+    }
+
+    public function getLearningHistory(Request $request)
+    {
+        $userID = $request->get('ID');
+        $histories = LearningHistory::where('user_id','=',$userID);
+        return response()->json($histories , 200);
     }
 
 }

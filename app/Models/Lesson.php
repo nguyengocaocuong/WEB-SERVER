@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Lesson extends Model
 {
     // use HasFactory;
-    protected $fillable = ['Lesson_ID','Course_ID','Lesson_header','Lesson_description','Lesson_uploadedAt','Lesson_video','Lesson_view'];
+    protected $fillable = ['Lesson_ID','Course_ID','Lesson_header','Lesson_description','Lesson_uploadedAt','Lesson_video','Lesson_view','Lesson_approve','Lesson_isFree'];
     protected $table = 'lesson';
-    protected $primaryKey = 'lesson_ID';
+    protected $primaryKey = 'Lesson_ID';
     const CREATED_AT = 'Lesson_uploadedAt';
     const UPDATED_AT = 'Lesson_updatedAt';
     // public $timestamps = false;
-    protected $hidden = ['Lesson_uploadeddAt','Lesson_updatedAt','Lesson_approve','Lesson_isFree'];
+    // protected $hidden = ['Lesson_uploadeddAt','Lesson_updatedAt','Lesson_approve','Lesson_isFree'];
 }
