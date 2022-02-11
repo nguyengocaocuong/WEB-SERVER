@@ -315,7 +315,8 @@ class CourseController extends Controller
         // echo count($lists);
         foreach($lists as $course_id)
         {
-            $currentList[] = Course::where('Course_ID','=',$course_id)->get();
+            $tmp = Course::where('Course_ID','=',$course_id)->first();
+            array_push($currentList,$tmp);
             // $total =  $listCourses->lastPage();
             // $current = $listCourses->currentPage();
             // $currentList = $listCourses->items();
