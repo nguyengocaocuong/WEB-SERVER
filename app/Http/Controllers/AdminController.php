@@ -38,19 +38,19 @@ class AdminController extends Controller
 
     public function listStudent () {
 
-        $value = DB::select('SELECT u.User_ID, u.User_name,User_account ,User_phone
-            FROM user u
-            WHERE u.User_role = 2');
+        $value = DB::select("SELECT u.\"User_ID\", u.\"User_name\",\"User_account\" ,\"User_phone\"
+            FROM public.\"user\" u
+            WHERE u.\"User_role\" = 2");
 
         for ($i = 0; $i < count($value) ; ++$i) {
-            $value[$i]->total = (int) DB::table('PaymentHistory')
-                ->join('CourseEnrollment', 'CourseEnrollment.Payment_ID', 'PaymentHistory.Payment_ID')
+            $value[$i]->total = (int) DB::table('paymenthistory')
+                ->join('courseenrollment', 'courseenrollment.Payment_ID', 'paymenthistory.Payment_ID')
                 -> where('User_ID', $value[$i]->User_ID)->sum('Payment_price');
 
         }
 
         for ($i = 0; $i < count($value) ; ++$i) {
-            $value[$i]->count = DB::table('CourseEnrollment')
+            $value[$i]->count = DB::table('courseenrollment')
                 -> where('User_ID', $value[$i]->User_ID)->count();
         }
         return response()->json($value,200);
