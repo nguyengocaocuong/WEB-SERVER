@@ -315,7 +315,7 @@ class CourseController extends Controller
         // echo count($lists);
         foreach($lists as $course_id)
         {
-            $listCourses = Course::where('Course_ID','=',$course_id)->get();
+            $currentList[] = Course::where('Course_ID','=',$course_id)->get();
             // $total =  $listCourses->lastPage();
             // $current = $listCourses->currentPage();
             // $currentList = $listCourses->items();
@@ -325,7 +325,7 @@ class CourseController extends Controller
             //     $course->{'name'} = $name[0];
             // }
         }
-        return response()->json(['listCourse' => $listCourses],200);
+        return response()->json(['listCourse' => $currentList],200);
     }
 
     public function getListUploadedCourses(Request $request)
