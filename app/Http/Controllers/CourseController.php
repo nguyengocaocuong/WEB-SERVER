@@ -66,7 +66,7 @@ class CourseController extends Controller
         $newLesson->Lesson_view = 0;
         $newLesson->save();
         // echo $newLesson;
-        return response()->json(['status'=>'Add Lesson Successfully','LessonID'=> $newLesson->lesson_ID],201);
+        return response()->json(['status'=>'Add Lesson Successfully','LessonID'=> $newLesson->Lesson_ID],201);
     }
 
     public function addChap(Request $request)
